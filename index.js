@@ -22,5 +22,13 @@ app.get('/api/books/:id', (req, res) => {
   res.json(book);
 });
 
+// add new book
+app.post('/api/books', (req, res) => {
+    const { title, author } = req.body;
+    const newBook = { id: books.length + 1, title, author };
+    books.push(newBook);
+    res.status(201).json(newBook);
+  });
+
 app.listen(port, () => {
 });
