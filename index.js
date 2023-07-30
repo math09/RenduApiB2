@@ -30,6 +30,19 @@ app.post('/api/books', (req, res) => {
     res.status(201).json(newBook);
   });
 
+  // Update book by ID
+app.put('/api/books/:id', (req, res) => {
+    const bookId = parseInt(req.params.id);
+    const { title, author } = req.body;
+    const bookIndex = books.findIndex((book) => book.id === bookId);
+    if (bookIndex === -1) {
+      return res.status(404).json({ error: 'Livre non trouvé' });
+    }
+    const updatedBook = { id: bookId, title, author };
+    books[bookIndex] = updatedBook;
+    res.json(updatedBook);
+  });
+
   // Delete book by ID
 app.delete('/api/books/:id', (req, res) => {
     const bookId = parseInt(req.params.id);
