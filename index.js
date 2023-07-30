@@ -12,7 +12,7 @@ app.get('/api/books', (req, res) => {
   res.json(books);
 });
 
-// fetch all book
+// Fetch all book
 app.get('/api/books/:id', (req, res) => {
   const bookId = parseInt(req.params.id);
   const book = books.find((book) => book.id === bookId);
@@ -22,12 +22,23 @@ app.get('/api/books/:id', (req, res) => {
   res.json(book);
 });
 
-// add new book
+// Add new book
 app.post('/api/books', (req, res) => {
     const { title, author } = req.body;
     const newBook = { id: books.length + 1, title, author };
     books.push(newBook);
     res.status(201).json(newBook);
+  });
+
+  // Delete book by ID
+app.delete('/api/books/:id', (req, res) => {
+    const bookId = parseInt(req.params.id);
+    const bookIndex = books.findIndex((book) => book.id === bookId);
+    if (bookIndex === -1) {
+      return res.status(404).json({ error: 'Livre non trouvé' });
+    }
+    const deletedBook = books.splice(bookIndex, 1)[0];
+    res.json(deletedBook);
   });
 
 app.listen(port, () => {
